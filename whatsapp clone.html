@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 100px;
+        }
+        .container{
+            height: 500px;
+            width:350px;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+           
+            
+            border-radius: 15px;
+            
+            
+        }
+        .chatbox{
+        background-color: black;
+            display: flex;
+            flex-direction: column;
+            overflow: scroll;
+            scrollbar-width: none;
+            
+            border-radius: 25px;
+            
+        }   
+        
+        
+        .right{
+            background-color: green;
+            color: aliceblue;
+            padding: 5px;
+            align-self: flex-end;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            margin-right: 10px;
+            margin-top: 10px;
+            min-width: 20%;
+            max-width: 50%;
+            position: relative;
+            
+
+        }
+        .left{
+            background-color: green;
+            color: aliceblue;
+            padding: 5px;
+            align-self: flex-start;
+            margin-bottom: 5px;
+            margin-left: 10px;
+            margin-top: 10px;
+            min-width: 20%;
+            max-width: 50%;
+            border-radius: 5px;
+            position: relative;
+            
+            
+        }
+        .text{
+            font-size: 15px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .time{
+            font-size: 10px;
+            color: rgba(0,0,0,1);
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            
+    
+        }
+        .date{
+            background-color: bisque;
+            color: brown;
+            margin-top: 5px;
+            align-self: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: sticky;
+            top: 0px;
+            width: 80px;
+            padding: 5px;
+            text-align: center;
+            z-index: 1;
+
+
+        }
+        .header{
+            background-color: lightpink;
+            color: black;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            cursor: pointer;
+            /* border-radius: 15px; */
+           
+        }
+        .info {
+        display: none;
+        position: absolute;
+        width: 94%;
+        top: -5px;
+        left: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+    .header:hover .info,.header:focus-within 
+    {
+       display: block;
+   }
+        .img1{
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-left: 10px;
+        }
+        .name{
+           
+            font-size: large;
+        }
+        .video,.audio{
+            width: 40px;
+            height: 40px; 
+            padding: 5px;
+            border-radius: 50%;
+            right: 0px;
+            position: absolute;
+        
+       }
+       .audio{
+        right: 50px;
+       }
+  
+
+    </style>
+
+</head>
+<body>
+    
+    <div class="container">
+        <div class="header">
+
+            <img class="img1" src="data:image/jpeg;base64,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" alt="">
+             <span class="name">Chinni</span>
+            <img class="video" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA0lBMVEVr0VL///+I23Tz8/Pr6+vl5eXk5OTm5ub6+vrv7+/39/fl9uJfzkJp0E/d7tqH23NbzTyl2pqC2W161mRv0leQ2oB812fo9+Xe3t3V1dO/xrrW1tR21V/P0czIzMSC2W6p2Z/s5+2V2IXY1Nei3JWS2oH59Pq13KzJ68K0zaya14u9xbeu4aK32a/z9vLh5ODd5tvP3svT4M/V7dCv16bQzM7FxMGtzqS937aj4pWP0n73+/fF4b/J38TY7dO757Hn7eXD1L22067k3eS90LfL08fEonAxAAARMklEQVR4nOWdcX+aOhfHBTEgV0RBWQCBImo77dpura67693WtX3/b+kJahAsJEEBsU/+cfm4ar6ek3PyS0LS4DhOaomtJnoVRBF8uKrYqEc7yiYE23pr8/aHqooNSZJkQRCa6LWNXj9etdFqAQHRNkELSOgVfLhqA3nquo48d/32h6siG7aSP8BHqzaaH71sYmkLbCJPC3y4auv/JR9uiUHyB/gQ1VYDZYw2yhxN9Cqj149XRdmitY2tm0D04aqV5EMxrPqozGZN4Q6A2WxdrSgfArAdAYDND1B4dXb39fHx+secN1DRdWPzwo9/9C/vuzcz32+V8724uok0YNsvASi0KnUv+/+ODE3TPFVV+XhBdU/TDGM0vr76euv75TWjpGzh+3eP17xuaHtg78salJ/cf+I48XzU08/7vmYgu1HgEpgGf/1065+BemrPbh+nuuYxwyUop483s1qrJ9G/vZoiz8yPhyk1Y/jl5thmlKeeXv6b60fgYUh98ovz66iefv7WaHiqti4exYc9w/t969dMPc2617qW1WDN0EeDhpIsjcEIhdoMVmTI/t2smKYVo566YyO1rRpCW+Okl/CtAcqX6YYcf/Vrop78b2MjxT01fZCJts85SHMA1Rh3C8uHR+iUVD7VYKSLYQ7SPmb+6dTqyb/tv2uYqjdy4kWQ+vvP6t9wJ1RPLfFytN//kPUOoIsoB8Z+fxxdnVA9/cdr+805yHpJS+7/aBrfPSY9HqGepMmegx5nvmxDqsYEiNWrJ/9xL5mh3lcI35qxoSd9Q/vFVa2e9g1YJF8aoz6pWD11kwY0CubbMCZ81dO+HaStDlNPs8tEWNdK4NswxgOZql/OqlJP0jTxzQXFl1TGQeKXHAOxEvX0J9ED9fL41ozx7qhqd3756ml2P4oBeiU5aAyxEevx6uiJY2nkMeppdhHv/yUbcMsYN6PxO6+oyque+jHAMntgAjHeG42+X6J6anHxGGNUw7dmjP2u2lA8IB+yKpFhrE+MqgNEiKNY3x9KZamnZgxQrRBvXQZeDLEk9STFALWqAVHRYoigDPUUt2CFXXBXYp1RHRavnhJ9sJIkkYI4iiFKhaun6Q6w0hiTgegNxYLVUx0Aw8y4Qxz7RaqnWX/XzQcn4wvLDlHrz4htzqWe4kO10wLGEY1LrjD1dF8fwATik1+Qevqz6+CjU/M14oj6nViIepJ2evCEQWZXdhFV5QtRT7NpvQDjcsob07UUXT1dRmH0JCOZtLIb3WiX/tHqqRv9YFpdABFilJ31b8eqJyla1/VOjZUoGFHVjlRP/iT6tU6fJ+IlCqjehDtKPT1FHl+HPBEru4Bq/CIjkPOhFAHWJsrgEkUbVTtGPUU+qtYNECFGAWLiH6qeWv9FJqxXJ9yUqCsa3UPVU4vHP9OJJC+5RIlf5Q9UT36U6706Asb8VLviDlJPt1GuPzVKZokC/c0B6gn4k1r7aFgiP/X6h6inb0a9fTQskZ/qf/KrJ3+M/7qOcRQXHE/VH/nVU2TCGg243xcFB0Ojm1s9RSY8NQSlYCOOM7b5ZaqnLjZhbcPMpkSDN+NrPvU0OxcTxow4y6WezsWEcSPe5VJPfe9cTBgZ0ev7OdTTz9G5mDBmRP02h3r6zWZCpVNQOe53xGntwmdWTy9RliF9daczefqniNL9zfeOYMRGVD1m9SQ+YULCcEbp/eaKKzfDzuGIeGCj3bOqp2jARhiRKspNgYCoPPYOJsRzi+GkFJt6usV9lzD7pPwsFhAhHm7FKC7esKmn9hV20mwT9rpFA3Lc+OC+qGA3/cKmnqKFiuw4o4yLB+Skg/00ijXDGceiniInzY4znT8lEHKTg42IY42xee6Npp4eNWqcaZQByP0i90RFaXR6vV7af8JKWHtkUk/YSfXs75qWQigT3bR3Mex0Z7PZtzTE7XSGOn23FJWinm50qpMqk1IIOQKhovzihr1/0H/qploau+ktg3q6pzup0q+asBeGNgJh5KZPIlU9RatNhBFb1YShASmE2+joXXNU9eSzjNiqJexscxPJS7fRVNWo6qkVzUARImmlhErniqMT4qSv31DVE84VpCm2Kgk74R49BkLc7CuqesLdMDtXVEm4MyCFEOcLr//CUdQTXm/K6oYo6XYqI+zw8QE+kRB3RN7niOqpdUPphr2r2azbu6iEMGFAGiHuiMYtR1ZPv8jZsBPK3ooIO96eQiMT4o74laKeHjRiN+x0qyJMmUMgExo41FDUE15SyxC/lRF2tPfyhUiIZbB37ZPV05AcaCoiTJ8EIhPiUDP2ierJx8PujEBTDWFn9CntbTJhlPN9knoC3yj5vgpCpXed/jaFEI+n/5DUU+v59ISdQaoB6YTbphtdknqKxmxZwqLzVDZhL3s0QSHEwfSJpJ7kS3KyaCgj9HefSiRUCJN4ZEI8btMuRYJ6ml17FOmkKMMh3ylt1NbJ8lAGQpwu+oCgnqQflFFpY3OoTC0JcbqYvxDUk4Tn87MB15C1JGzghPhCUE8veFWNPHNZT0IFq4tZtnpqvTAI/LoT8vosWz0BTEjZTlpvQmNGUE8QT1mdJSFebvHlbPXUPmtCPFoJCOpJwOOCcybU3kC2evI/BKEDM9VT+9tHIDTustUT+MowWVp/wj9SpnqC9ocg9KVM9QSDs/ZSLIH9bPUk+2ed8XE+DMRM9SSdNyEe0wQwUz1JM8pE1JkQgmz1NMOrFmdMqPJBtnqCwan1IXGHAKM+nBPUEwjmdI1fKiFhpo1Z4/8gqaegf2rC7NlS5nmaiyZJPT0wrI+WvULaGWTsuGKdaxMIa0/yI2U2sQrCTDMyzpf+JaknmW1gWvoacMdIMyPbnLf2DFvZ6ql5yySBy1/lTl18Yly3eIMge+1JeGFK+VWs43e8d5uQ2daejBeBsPa0S4jEYFrJTgWld7X3Ntv64b++RFh7AgFlDbhCwnArTdKMTGvAaj8kzFx7ggFtaaZKwv3NGEzr+N6DQFx7EmgLiJUSJnZEMe/FgKS1J675xjLrXeGuL6Vzz0iIAw2wSWtPnBzQ9kRVTBhuLcVmZNwTBVuknXvSck7dA1317kul84uBMNrX5kPizj0o1G1v4saMVELcDb3vAUfcuQfbtdtfuv7C9eI3y/5S7c3kiDv3QLOGe4TD0puQCfGDQd7S5sg795pgQn1i5hSEoaYa90J1/Im0z1udBICycw+af7dGJMy3nYIQBZyRwk+n09Tus9ur79Oee4J2lBEJX1b98xbbL866lid6LAgK1Oee7OWwns/MEMvumZkm9bknAX6huqkyKIWQ8twToURO+gWK1OeeZMGhP7vWq+uza5YJqc89Se0X/jTPH/48/vnDaWAD+nNPcjThdobPkNpbQuKpEcB2TvIc8NPhcQane+MNNBlOjQDQn7M8y11wVyzgWW51vhQkhlMjANw9j0/62EKfx/9TyPP43502x3JqBBCYz1S46tboTAU0JnWaHNOpEaZzcY7nYngXoMl2aoQMTctgMWI9SnSkmW6LMuOpEdCMlP4ZnU+j9l8E5jP3oPOKe2LtD6iJTGg8Q4H5zD1JCM7wnKjAgcxn7klt+5UpnJ6+7I6JekbjGfYz9yS4Gp6JESMTvkCY48w9NHR7Po8z97ydCUE7lSXjzD1RfDmvcxPHK0dMIlDO3Gu3YWTEGp4hjMvujNZX12wnEWgnlsviS5QTa5sxdufszleOnfPE8hZ0nNqfQbs7K/kNinLOE8sBdAL8THBdz2iNwoz24Apy7hPLgQ2DszkL2nLaUv4TyyGAu/O8T02TViIf1T67Zvb1T4QTy6G7ioJNDeNpFEfVedAS4CEnlrdMdxHdjFC7wVvsFo8ACjJIRaDd92Q7Lp4drt3dCNHsEwozAUpuh933JKJ4Gvlpzbpi1AlRKoRi89D7niTRciMjVn7jIbHs7iixoQOzEWj3WzQd6/PO3+vTFaNDrtGIOxBtcPh9T5LprnZXrtUm2sSizEMA2xAccd+TAJ1ota02iX9335M6XTpQICPQ7ntqAnMRuzevDoixO7u0wHVsSESg3vcktaH1WqeL5WJ5gtffbNMELSIC/bZcSXSt73W5/TAs8bvzAmjD/cWm3LflimgMvqzNBY+JKx4vVq7dPv62XFFoivZy7tUEMX6H5dJybDmtzblvy20Ddzf1dtJwk7iHdB1lstrMet/Tpiq1bcuqA2LiutzAtk1Y1G25EALTjCGe6B7E2DXy6tBauKEBC7otFwgiNC1+h3j6O50dyzUFUptz3pbblEXoLmKIp72XG7mo45qQ0mYG9RSrym3guG7MUb2KQ6oSu1sdWdAxbUhrc57bcsOpNxvARF+stjPGYgzvDS3LsmWJ2mb223LXVdgO+2Ls+vEqO2OsC/LaOLAsE7K0mfW23G1VRn1xsZrvegOvVpQ2lEHMdbS+aVumzdZmBvUUL+GshhsfwFUkp2JJAjnOxdJFmp691Qy35cZOc7ORoy6/xzyG9xplMyqNWMdQ9b+rhevIzG1muS03UUWO6livWsxpyjZjwoCq9hagPAjztJmunpJVWYALNIKLe2qZvTHRA3ltGJi2s7e/ktZmunra39cHoeMs+3FPRem/HEalkfgljYel5TqgTW9kPvW0v69PbAPorj4nPJU3SmBUGomfUdWeA9dyzCZDI3Orp30xJToo5cbTRtgdC2ZUGnri87W5aZqOYwPGRuZTT/tVGbrWYvnoqaUx7vOp2sPKtsOBFXMj86mnfTElIE+1rMXcSDIW5avKwNjjQwZ0kIcKORqZTz29q0rNlmtZq1c+6aq8N0p/HCIPnjLykh+q8Z8DEwVRG+ZrZCJbUNXTflWSbcdamObDnhmRIY9KHvvmC0PoBRqG2uGKLcjZyFzq6X1VgKaLRIw7ecfo6Y2DLIn+SN//LOSgFvIWGwjtQxqZRz2lVGUBmdEKnsfafrt4D1kyH6SCrPfuY1Rt/OoiKQhMCA9s5EHZIjrOVbKRKjbN4DWFEXUfnZUS0ena+w9QjfHryrIcKDb3HnzNly2Y1VNKFUIktW0TDQBSGUPK0SDjWawtmzIYpdGt+cIUv3CBIOdr1eHqKUNRoVGc6y5f54aX1tAQ09P1wWDz3NmuNAYDXdey/sYz+q9L1w1nRMX0DXllqKfUqoxsaEPTdN3FhZduyJ1ZtG3J4or+n3rhBOHAyUbxYn8wnbOROdVTWhWFcTQeRwHPCv4iQ5Ih6UXVjPH3lemsU3zYkQ5r1cHqKb2KxvGmFabH4O1iaFAsScbTpl8WK/RR9rqPH9Uq7jD1lFEN54xDO7rO8u37UDsIEllv+rBYoSyLDBjiHd2qg9RTZlWW206Ym03HXS2+TzxEyY6pIuOp879vKHhaCwcCMZwOLaJVx+XDd1UUdExo22GXdIK3L3MexRQqpqp6msH3H15XLrKcu7BcNLCXjmlGAeopuwphUxDDLukgWMtdfH6YjA1tDbqPqoZoGnLM+cWrE6C/CUefEElAsy0d24yj1ROpCpGGQ/9GqXqBWutYKFW+PX95mI+nvGEY61yxflHH8/7Dw+fFMljToSiFjO+YUJYKacbR6olUBW1JbofDAOSwYU5bOx8qQRAsF4vF85vjrFAJQsm3fRe9AuRbKH6m79UuIFvkVk+0KoqsZjht5brW2mHDrrlBCZHWVUS4CBcBw0ERcs2mJEdpurBmHKWe6FW52RaQHWE4PeeGQ3Rna7Sw5qKhkO2EU4MtAUJRLK8ZR6gnpirqVrZtoy8SQkuJoAVRskNEIrIhRIYT0A9QxvcWop6Yqy0gI6mF3BHITRlZDOVyWcLn5IjlfW8B6ilfVQQYuOQvKlQ9nUE5Vj3VvlqAeqp5tRj1VOdqUeqpxtXC1FNtq1Xkw9NWPz7h/wDBZLVEbRWJsQAAAABJRU5ErkJggg==" alt=""> 
+            <img class="audio" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9i_olMAI8oRiLVjsu9zGfno2w0LRzb_cQEw&s" alt="">
+            <div class="info">
+                <p>Pravallika</p>
+                <p>Contact: 9948522513</p>
+            </div>
+        </div>
+        <div class="chatbox">
+        <span class="date">Yesterday</span>
+        <div class="right">
+            <span class="text">Hiii junior</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Hiii senior.How are youuu</span>
+            <span class="time">8:40 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">Had ur dinner</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Yaa just now.Whats going on..</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">what r u doing</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">doing task!! have some work.</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">How was ur experience</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Awesome</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">How was ur lyf going on.</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Ntg beautifulll its going on.</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">how was ur job??</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">it was nyc experience for me</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <span class="date">today</span>
+        <div class="right">
+            <span class="text">Hiii junior</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Hiii senior.How are youuu</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">Had ur dinner</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Yaa just now.Whats going on..</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">How was ur lyf going on.</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Ntg beautifulll its going on.</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">how was ur job??</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">it was nyc experience for me</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <span class="date">Aug1</span>
+        <div class="left">
+            <span class="text">Ntg beautifulll its going on.</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">how was ur job??</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">it was nyc experience for me.everything goes good</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">Ntg beautifulll its going on.</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">how was ur job??</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">it was nyc experience for me.everything goes good</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="right">
+            <span class="text">how was ur job??</span>
+            <span class="time">7:49 AM</span>
+        </div>
+        <div class="left">
+            <span class="text">it was nyc experience for me.everything goes good</span>
+            <span class="time">7:49 AM</span>
+        </div>
+    </div>    
+
+
+
+    </div>
+   
+</body>
+</html>
